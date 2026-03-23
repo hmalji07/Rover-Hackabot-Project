@@ -1,10 +1,9 @@
-
 # Hack-a-Bot Rover Project
 
-This project was developed during the Hack-a-Bot robotics hackathon at the University of Manchester.
+Arduino-based rover built during the Hack-a-Bot robotics hackathon at the University of Manchester.
 
-It is an Arduino-based rover built to demonstrate basic movement control, with plans to extend functionality to include a grabber mechanism.
+The project focused on basic movement control using Arduino, with plans to extend it with a grabber mechanism. The rover was controlled via Arduino using basic motor driver logic to enable movement.
 
-The codebase includes Arduino (C++), with supporting Python scripts used during development/testing.
+It includes C++ (Arduino) and Python scripts used during development and testing.
 
-This is a beta version of the project, so functionality may not be fully stable and may not work consistently in all cases.
+This is a beta version, so behaviour may not always be stable or consistent.
