@@ -1,126 +1,148 @@
-#include <Servo.h>
-// NOTE: Servo library kept removed logically, but not needed anymore
+#include <AFMotor.h>
+// Include Adafruit Motor Shield library (L293D shield v1)
 
-// ---------------- MOTOR PINS ----------------
+// ---------------- MOTOR SETUP ----------------
 
-int LM1 = 5;
-// Left motor input 1
+// Create motor objects (M1–M4 ports on shield)
 
-int LM2 = 6;
-// Left motor input 2
+AF_DCMotor FL(1);
+// Front Left motor on M1
 
-int RM1 = 9;
-// Right motor input 1
+AF_DCMotor BL(2);
+// Back Left motor on M2
 
-int RM2 = 10;
-// Right motor input 2
+AF_DCMotor FR(3);
+// Front Right motor on M3
+
+AF_DCMotor BR(4);
+// Back Right motor on M4
+
+// ---------------- SPEED ----------------
+
+int SPEED = 180;
+// Motor speed (0 = stop, 255 = full power)
 
 // ---------------- SETUP ----------------
 
 void setup() {
 
-  // Serial.begin(9600);
-  // REMOVED: no remote control yet
-
-  pinMode(LM1, OUTPUT);
-  // Left motor pin 1 output
-
-  pinMode(LM2, OUTPUT);
-  // Left motor pin 2 output
-
-  pinMode(RM1, OUTPUT);
-  // Right motor pin 1 output
-
-  pinMode(RM2, OUTPUT);
-  // Right motor pin 2 output
+  // No pinMode needed (library handles everything)
 
   stopMotors();
-  // Ensure robot is stopped at start
+  // Ensure all motors are stopped at startup
 }
 
-// ---------------- MOTOR FUNCTIONS ----------------
+// ---------------- MOVEMENT FUNCTIONS ----------------
 
-// Move forward
+// Move forward (all motors forward)
 void forward() {
 
-  digitalWrite(LM1, HIGH);
-  digitalWrite(LM2, LOW);
+  FL.setSpeed(SPEED);
+  BL.setSpeed(SPEED);
+  FR.setSpeed(SPEED);
+  BR.setSpeed(SPEED);
 
-  digitalWrite(RM1, HIGH);
-  digitalWrite(RM2, LOW);
+  FL.run(FORWARD);
+  BL.run(FORWARD);
+  FR.run(FORWARD);
+  BR.run(FORWARD);
 }
 
-// Move backward
+// Move backward (all motors backward)
 void backward() {
 
-  digitalWrite(LM1, LOW);
-  digitalWrite(LM2, HIGH);
+  FL.setSpeed(SPEED);
+  BL.setSpeed(SPEED);
+  FR.setSpeed(SPEED);
+  BR.setSpeed(SPEED);
 
-  digitalWrite(RM1, LOW);
-  digitalWrite(RM2, HIGH);
+  FL.run(BACKWARD);
+  BL.run(BACKWARD);
+  FR.run(BACKWARD);
+  BR.run(BACKWARD);
 }
 
-// Turn left
+// Turn left (left side backward, right side forward)
 void left() {
 
-  digitalWrite(LM1, LOW);
-  digitalWrite(LM2, HIGH);
+  FL.setSpeed(SPEED);
+  BL.setSpeed(SPEED);
+  FR.setSpeed(SPEED);
+  BR.setSpeed(SPEED);
 
-  digitalWrite(RM1, HIGH);
-  digitalWrite(RM2, LOW);
+  FL.run(BACKWARD);
+  BL.run(BACKWARD);
+
+  FR.run(FORWARD);
+  BR.run(FORWARD);
 }
 
-// Turn right
+// Turn right (left side forward, right side backward)
 void right() {
 
-  digitalWrite(LM1, HIGH);
-  digitalWrite(LM2, LOW);
+  FL.setSpeed(SPEED);
+  BL.setSpeed(SPEED);
+  FR.setSpeed(SPEED);
+  BR.setSpeed(SPEED);
 
-  digitalWrite(RM1, LOW);
-  digitalWrite(RM2, HIGH);
+  FL.run(FORWARD);
+  BL.run(FORWARD);
+
+  FR.run(BACKWARD);
+  BR.run(BACKWARD);
 }
 
-// Stop motors
+// Stop all motors
 void stopMotors() {
 
-  digitalWrite(LM1, LOW);
-  digitalWrite(LM2, LOW);
-
-  digitalWrite(RM1, LOW);
-  digitalWrite(RM2, LOW);
+  FL.run(RELEASE);
+  BL.run(RELEASE);
+  FR.run(RELEASE);
+  BR.run(RELEASE);
 }
 
 // ---------------- MAIN TEST LOOP ----------------
 
 void loop() {
 
-  // Forward test
   forward();
+  // Move forward
+
   delay(2000);
+  // Wait 2 seconds
 
   stopMotors();
+  // Stop
+
   delay(1000);
 
-  // Backward test
   backward();
+  // Move backward
+
   delay(2000);
 
   stopMotors();
+  // Stop
+
   delay(1000);
 
-  // Left turn test
   left();
+  // Turn left
+
   delay(1000);
 
   stopMotors();
+  // Stop
+
   delay(1000);
 
-  // Right turn test
   right();
+  // Turn right
+
   delay(1000);
 
   stopMotors();
-  delay(2000);
+  // Stop
 
-  // Repeat forever
+  delay(2000);
 }
